@@ -13,10 +13,7 @@
       auto-optimise-store = true;
     };
   };
-  nixpkgs.config.permittedInsecurePackages = [
-                "openssl-1.1.1v"
-		"python-2.7.18.6"
-              ];
+
 hardware.opengl.driSupport32Bit = true;
 hardware.pulseaudio.support32Bit = true;
 nixpkgs.config.allowUnfreePredicate = (pkg: builtins.elem (builtins.parseDrvName pkg.name).name [ "steam" ]);
@@ -60,14 +57,14 @@ nix.settings = {
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-  services.xserver.windowManager.dwm.enable = true;
+  #services.xserver.windowManager.dwm.enable = true;
   services.xserver.layout = "us";
 
   services.xserver.displayManager = {
 	lightdm.enable = true;
   	autoLogin = {
 		enable = true;
-		user = "titus";
+		user = "alexander";
 	};
   };
 services.xserver.displayManager.setupCommands = ''
@@ -80,10 +77,10 @@ services.xserver.displayManager.setupCommands = ''
   hardware.pulseaudio.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.titus = {
+  users.users.alexander = {
      isNormalUser = true;
      isNormalUser = true;
-    description = "Titus";
+    description = "Alexander";
     extraGroups = [    
       "flatpak"
       "disk"
@@ -103,97 +100,68 @@ services.xserver.displayManager.setupCommands = ''
   # List packages installed in system profile. To search, run:
   # $ nix search wget
    environment.systemPackages = with pkgs; [
-        vim
-	wget
-	w3m
-	dmenu
-        neofetch
-	neovim
-	autojump
-	starship
-	floorp
-	bspwm
-	cargo
-	celluloid
-	chatterino2
-  	clang-tools_9
-	davinci-resolve
-	dwm
-	dunst
-	elinks
-	eww
-	feh
-	flameshot
-	flatpak
-  	fontconfig
-  	freetype
-	gcc
-	gh
-	gimp
-	git
-	github-desktop
-	gnugrep
-	gnumake
-	gparted
-	hugo
-	kitty
-	libverto
-  	luarocks
-	lutris
-	mangohud
-	neovim
-	nfs-utils
-	ninja
-	nodejs
-	nomacs
-	openssl
-	nerdfonts
-	pavucontrol
-	picom
-	polkit_gnome
-	powershell
-	protonup-ng
-	python3Full
-	python.pkgs.pip
-	qemu
-	ripgrep
-	rofi
-	steam
-	steam-run
-	sxhkd
-	st
-	stdenv
-	synergy
-	swaycons
-	terminus-nerdfont
-	tldr
-	trash-cli
-	unzip
-	variety
-	virt-manager
-	xclip
-	xdg-desktop-portal-gtk
-	xfce.thunar
-	xorg.libX11
-	xorg.libX11.dev
-	xorg.libxcb
-	xorg.libXft
-	xorg.libXinerama
-	xorg.xinit
+    wget
+    neofetch
+    neovim
+    starship
+    firefox
+    chatterino2
+    dunst
+    feh
+    flameshot
+    flatpak
+    fontconfig
+    gh
+    gimp
+    git
+    gnugrep
+    gnumake
+    gparted
+    kitty
+    lutris
+    mangohud
+    neovim
+    ninja
+    nodejs
+    nomacs
+    openssl
+    nerdfonts
+    pavucontrol
+    picom
+    polkit_gnome
+    powershell
+    protonup-ng
+    python3Full
+    python.pkgs.pip
+    qemu
+    ripgrep
+    rofi
+    steam
+    steam-run
+    st
+    terminus-nerdfont
+    tldr
+    trash-cli
+    unzip
+    virt-manager
+    xclip
+    xdg-desktop-portal-gtk
+    xfce.thunar
+    xorg.libX11
+    xorg.libX11.dev
+    xorg.libxcb
+    xorg.libXft
+    xorg.libXinerama
+    xorg.xinit
   	xorg.xinput
-	(lutris.override {
+	
+  (lutris.override {
 	       extraPkgs = pkgs: [
 		 # List package dependencies here
 		 wineWowPackages.stable
 		 winetricks
 	       ];
 	    })
-  ];
-
-  nixpkgs.overlays = [
-	(final: prev: {
-		dwm = prev.dwm.overrideAttrs (old: { src = /home/titus/GitHub/dwm-titus ;});
-	})
   ];
 
   ## Gaming
@@ -216,6 +184,7 @@ services.xserver.displayManager.setupCommands = ''
     extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
   security.polkit.enable = true;
+
  systemd = {
   user.services.polkit-gnome-authentication-agent-1 = {
     description = "polkit-gnome-authentication-agent-1";
@@ -242,8 +211,8 @@ services.xserver.displayManager.setupCommands = ''
   networking.firewall.enable = false;
   networking.enableIPv6 = false;
 
-fonts = {                                                  #This is depricated new sytax will
-    fonts = with pkgs; [                                   #be enforced in the next realease
+fonts = {
+    fonts = with pkgs; [
       noto-fonts
       noto-fonts-cjk
       noto-fonts-emoji
@@ -266,8 +235,8 @@ fonts = {                                                  #This is depricated n
   # (/run/current-system/configuration.nix). This is useful in case you
   # accidentally delete configuration.nix.
   system.copySystemConfiguration = true;
-  system.autoUpgrade.enable = true;
-  system.autoUpgrade.allowReboot = true;
+  system.autoUpgrade.enable = false;
+  system.autoUpgrade.allowReboot = false;
   system.autoUpgrade.channel = "https://channels.nixos.org/nixos-24.05";
 
   # This value determines the NixOS release from which the default
